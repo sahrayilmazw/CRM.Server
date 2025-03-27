@@ -26,6 +26,16 @@ namespace CRM.Server.Controllers
             return await _appDbContext.Employees.ToListAsync();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Employee>> CreateEmployee(Employee emp)
+        {
+            _appDbContext.Employees.Add(emp);
+            await _appDbContext.SaveChangesAsync();
+
+            return CreatedAtAction("GetEmployeeById", new { id = emp.Id }, emp);
+        }
+
+
         //https://localhost:7291/api/Employees/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployeeById(int id)
@@ -40,9 +50,51 @@ namespace CRM.Server.Controllers
             //return Ok(emp);
         }
 
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeer()
+        //https://localhost:7291/api/Employees/1
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Employee>> UpdateEmployeeById(int id, Employee emp)
         {
-            return await _appDbContext.Employees.ToListAsync();
+            if (id != emp.Id)
+            {
+                BadRequest();
+            }
+
+            _appDbContext.Entry(emp).State = EntityState.Modified;
+            try
+            {
+                await _appDbContext.SaveChangesAsync(); //çalıştırılacak kod bloğu
+            }
+            catch (Exception ex)
+            {
+                if (!EmployeeExists(id)) 
+                {
+                    return NotFound(ex);
+                }
+                else
+                {
+                    throw; //boş geç
+                }
+            }
+            return NoContent(); 
         }
+        private bool EmployeeExists(int id)
+        {
+            return _appDbContext.Employees.Any(e => e.Id == id);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Employee>> DeleteEmployeeById(int id)
+        {
+            var emp = await _appDbContext.Employees.FindAsync(id);
+            if (emp == null)
+            {
+                return NotFound();
+            }
+            _appDbContext.Employees.Remove(emp);
+            await _appDbContext.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }

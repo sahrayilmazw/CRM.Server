@@ -18,7 +18,7 @@ namespace CRM.Server.Migrations
 
             modelBuilder.Entity("CRM.Server.Models.Employee", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 

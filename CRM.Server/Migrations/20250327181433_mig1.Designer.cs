@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250324181810_mig1")]
+    [Migration("20250327181433_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace CRM.Server.Migrations
 
             modelBuilder.Entity("CRM.Server.Models.Employee", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 

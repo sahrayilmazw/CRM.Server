@@ -14,7 +14,7 @@ namespace CRM.Server.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<uint>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FullName = table.Column<string>(type: "TEXT", nullable: false),
                     Phone = table.Column<string>(type: "TEXT", nullable: true),
